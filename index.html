@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>sujon.dev — Blog</title>
+<link rel="stylesheet" href="CSS/main.css">
+</head>
+<body>
+<canvas id="starfield"></canvas>
+<div id="progress-bar"></div>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://sujong1.github.io/Portfolio/" title="Back to Portfolio">
+      <span class="home-btn">
+        <span class="home-btn-glow"></span>
+        <svg class="home-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="home-text">sujon.dev</span>
+      </span>
+    </a>
+    <div class="search-wrap" id="search-wrap">
+      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-input" type="text" placeholder="Search posts…" oninput="searchPosts(this.value)" autocomplete="off"/>
+      <button class="search-clear" id="search-clear" onclick="clearSearch()" style="display:none">✕</button>
+    </div>
+    <div class="nav-right">
+      <button class="write-btn" onclick="openEditor()">✦ Write</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-tag">✦ Web Developer · AI Explorer · Content Writer</div>
+    <h1>My <span>Blog</span></h1>
+    <p>Thoughts on web dev, AI experiments, and tools I find fascinating.</p>
+  </div>
+  <div class="actions-bar">
+    <div class="filters">
+      <button class="tag active" onclick="filterPosts('all',this)">All</button>
+      <button class="tag" onclick="filterPosts('ai',this)">AI & ML</button>
+      <button class="tag" onclick="filterPosts('web',this)">Web Dev</button>
+      <button class="tag" onclick="filterPosts('tools',this)">Tools</button>
+      <button class="tag" onclick="filterPosts('thoughts',this)">Thoughts</button>
+    </div>
+  </div>
+  <div class="blog-grid" id="blog-grid"></div>
+</div>
+
+<!-- POST -->
+<div class="page" id="page-post">
+  <div class="post-wrap">
+    <button class="back-btn" onclick="goHome()">← Back to Blog</button>
+    <div id="post-content"></div>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div class="modal-overlay" id="editor-modal" style="display:none">
+  <div class="modal" id="editor-box">
+    <div class="modal-header">
+      <h2 id="editor-label">✦ Write a New Post</h2>
+      <button class="close-btn" onclick="closeEditor()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Title *</label>
+          <input id="editor-title" type="text" placeholder="Your post title..." maxlength="120"/>
+        </div>
+        <div class="field">
+          <label>Category *</label>
+          <select id="editor-cat">
+            <option value="">Select category</option>
+            <option value="ai">AI & ML</option>
+            <option value="web">Web Dev</option>
+            <option value="tools">Tools</option>
+            <option value="thoughts">Thoughts</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Excerpt <span style="color:var(--border);font-size:.7rem;text-transform:none">(optional — shown on card)</span></label>
+        <textarea id="editor-excerpt" rows="2" placeholder="Short summary shown in the grid..." maxlength="200"></textarea>
+      </div>
+      <div class="field">
+        <label>Body *</label>
+        <div class="toolbar">
+          <button class="tb-btn" onclick="ins('**','**')"><b>B</b></button>
+          <button class="tb-btn" onclick="ins('*','*')"><i>I</i></button>
+          <button class="tb-btn" onclick="insLine('## ')">H2</button>
+          <button class="tb-btn" onclick="insLine('### ')">H3</button>
+          <button class="tb-btn" onclick="insLine('- ')">• List</button>
+          <button class="tb-btn" onclick="ins('`','`')">Code</button>
+          <button class="tb-btn" onclick="ins('\n```\n','\n```')">Block</button>
+          <button class="tb-btn" onclick="insLine('> ')">Quote</button>
+          <button class="tb-btn" onclick="insLine('---')">Divider</button>
+        </div>
+        <textarea id="editor-body" placeholder="Write your post here..." rows="12"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <span class="char-count" id="char-count">0 chars · ~1 min read</span>
+      <div class="modal-btns">
+        <button class="cancel-btn" onclick="closeEditor()">Cancel</button>
+        <button class="publish-btn" onclick="publishPost()">Publish →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL — separate from editor, own z-index -->
+<div class="del-overlay" id="del-overlay" style="display:none">
+  <div class="del-box">
+    <h3>Delete this post?</h3>
+    <p>This will permanently remove the post. This action cannot be undone.</p>
+    <div class="del-btns">
+      <button class="del-no" id="del-no-btn">Cancel</button>
+      <button class="del-yes" id="del-yes-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="Js/script.js"></script>
+</body>
+</html>
